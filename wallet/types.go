@@ -1,17 +1,13 @@
 package wallet
 
-type Wallet interface {
-	Generate() (string, error)
-	GenerateAddress() (string, error)
-	GetChain() string
-	Balance(nativeOrToken bool, tokenAddress string) (int, error)
-	Withdraw(fromAddress string, amount int, nativeOrToken bool, tokenAddress string) (bool, error)
-}
+import (
+	"crypto/ecdsa"
+)
 
 type WalletConfig struct {
 	Nickname   string
-	PrivateKey string
-	Chain      string
+	PrivateKey *ecdsa.PrivateKey
+	Chain      ChainConfig
 	Addresses  []WalletAddress // cached generated addresses, will be lost of local db is wiped
 }
 
@@ -20,10 +16,19 @@ type WalletConfig struct {
 */
 type WalletAddress struct {
 	Nickname      string
-	PrivateKey    string
+	PrivateKey    *ecdsa.PrivateKey
 	PublicAddress string
 	NativeBalance string
 	Tokens        []ERC20Token
+}
+
+/*
+	Chain config on which the wallet is created.
+*/
+type ChainConfig struct {
+	Id   int
+	Name string
+	RPC  string
 }
 
 /*
