@@ -4,19 +4,16 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
-func Generate(nickname string, chain ChainConfig) (*WalletConfig, error) {
+// Generates and returns a simple ECDSA wallet with nickname and chain config.
+func GenerateSimpleWallet(nickname string, chain ChainConfig) (*SimpleWalletConfig, error) {
 	privateKey, err := crypto.GenerateKey()
 	if err != nil {
 		return nil, err
 	}
-	return &WalletConfig{
+	return &SimpleWalletConfig{
 		Nickname:   nickname,
 		PrivateKey: privateKey,
 		Chain:      chain,
-		Address:    "",
+		Address:    crypto.PubkeyToAddress(privateKey.PublicKey).Hex(),
 	}, nil
-}
-
-func (w *WalletConfig) GenerateAddress() {
-	w.Address = crypto.PubkeyToAddress(w.PrivateKey.PublicKey).Hex()
 }

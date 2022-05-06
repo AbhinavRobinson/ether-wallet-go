@@ -4,7 +4,10 @@ import (
 	"crypto/ecdsa"
 )
 
-type WalletConfig struct {
+/*
+	Config for creating a simple ECDSA wallet.
+*/
+type SimpleWalletConfig struct {
 	Nickname      string
 	PrivateKey    *ecdsa.PrivateKey
 	Chain         ChainConfig
