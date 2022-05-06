@@ -13,6 +13,10 @@ func Generate(nickname string, chain ChainConfig) (*WalletConfig, error) {
 		Nickname:   nickname,
 		PrivateKey: privateKey,
 		Chain:      chain,
-		Addresses:  []WalletAddress{},
+		Address:    "",
 	}, nil
+}
+
+func (w *WalletConfig) GenerateAddress() {
+	w.Address = crypto.PubkeyToAddress(w.PrivateKey.PublicKey).Hex()
 }
