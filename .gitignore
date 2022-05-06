@@ -1,0 +1,6 @@
+tmp
+vendor
+build
+
+*.sum
+*.local.*
