@@ -1,8 +1,6 @@
 package wallet
 
 import (
-	"log"
-
 	"github.com/ethereum/go-ethereum/crypto"
 	hdwallet "github.com/miguelmota/go-ethereum-hdwallet"
 )
@@ -29,7 +27,7 @@ func GenerateHDWallet(nickname string, chain ChainConfig) (*HDWalletConfig, erro
 	}
 	wallet, err := hdwallet.NewFromMnemonic(mnemonic)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	return &HDWalletConfig{
 		Nickname:  nickname,
@@ -37,4 +35,25 @@ func GenerateHDWallet(nickname string, chain ChainConfig) (*HDWalletConfig, erro
 		Chain:     chain,
 		Addresses: make([]HDAddress, 0),
 	}, nil
+}
+
+// Generates new HDWallet Address from path and wallet.
+func (hdw *HDWalletConfig) GenerateHDWalletAddress(path string) error {
+	derivedPath := hdwallet.MustParseDerivationPath(path)
+	account, err := hdw.Wallet.Derive(derivedPath, false)
+	if err != nil {
+		return err
+	}
+	privateKey, err := hdw.Wallet.PrivateKey(account)
+	if err != nil {
+		return err
+	}
+	hdw.Addresses = append(hdw.Addresses, HDAddress{
+		PrivateKey:    privateKey,
+		Address:       account.Address.Hex(),
+		Path:          derivedPath.String(),
+		NativeBalance: "",
+		Tokens:        make([]ERC20Token, 0),
+	})
+	return nil
 }
