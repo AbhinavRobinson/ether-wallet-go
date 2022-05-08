@@ -6,4 +6,4 @@ build
 
 # DB and configs
 *.local.*
-local
+private
