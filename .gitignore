@@ -1,6 +1,9 @@
+# go local files
 tmp
 vendor
 build
-
 *.sum
+
+# DB and configs
 *.local.*
+local

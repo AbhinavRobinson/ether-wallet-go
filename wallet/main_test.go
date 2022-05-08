@@ -31,10 +31,10 @@ func TestGenerateHDWallet(t *testing.T) {
 }
 
 // Test if HDWallet address generates correctly
-func TestGenerateHDWalletAddress(t *testing.T) {
+func TestGenerateAddress(t *testing.T) {
 	w, err := GenerateHDWallet("test", ChainConfig{Id: 1, Name: "test", RPC: "test"})
 	assert.Nil(t, err)
-	err = w.GenerateHDWalletAddress("m/44'/60'/0'/0/0/0")
+	err = w.GenerateAddress("m/44'/60'/0'/0/0/0")
 	assert.Nil(t, err)
 	assert.NotEqual(t, nil, len(w.Addresses))
 	assert.NotNil(t, w.Addresses[0].PrivateKey)

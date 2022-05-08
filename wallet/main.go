@@ -38,7 +38,7 @@ func GenerateHDWallet(nickname string, chain ChainConfig) (*HDWalletConfig, erro
 }
 
 // Generates new HDWallet Address from path and wallet.
-func (hdw *HDWalletConfig) GenerateHDWalletAddress(path string) error {
+func (hdw *HDWalletConfig) GenerateAddress(path string) error {
 	derivedPath := hdwallet.MustParseDerivationPath(path)
 	account, err := hdw.Wallet.Derive(derivedPath, false)
 	if err != nil {
