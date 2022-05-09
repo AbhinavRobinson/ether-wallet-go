@@ -2,6 +2,7 @@ package db
 
 import "testing"
 
+// Setup suite for opening and closing database.
 func setup(tb testing.TB) func(tb testing.TB) {
 	err := OpenDBConnection()
 	if err != nil {

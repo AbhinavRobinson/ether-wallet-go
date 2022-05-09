@@ -1,4 +1,4 @@
-package wallet
+package app
 
 import (
 	"github.com/ethereum/go-ethereum/crypto"
