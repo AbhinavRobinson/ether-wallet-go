@@ -40,11 +40,14 @@ func WriteOnDB(key string, value string) error {
 func GetFromDB(key string) (string, error) {
 	var result string
 	err := Db.View(func(txn *badger.Txn) error {
-		value, err := txn.Get([]byte(key))
+		item, err := txn.Get([]byte(key))
+		// Always copy value to avoid bugs
+		value, err := item.ValueCopy(nil)
 		if err != nil {
-			result = value.String()
+			return err
 		}
-		return err
+		result = string(value)
+		return nil
 	})
 	return result, err
 }
